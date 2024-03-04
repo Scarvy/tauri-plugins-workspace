@@ -8,7 +8,7 @@ import { invoke } from '@tauri-apps/api/core'
 function openLinks(): void {
   document.querySelector('body')?.addEventListener('click', function (e) {
     let target: HTMLElement | null = e.target as HTMLElement
-    while (target) {
+    while (target != null) {
       if (target.matches('a')) {
         const t = target as HTMLAnchorElement
         if (
@@ -16,7 +16,8 @@ function openLinks(): void {
           ['http://', 'https://', 'mailto:', 'tel:'].some((v) =>
             t.href.startsWith(v)
           ) &&
-          t.target === '_blank'
+          t.target === "_blank" &&
+          target.dataset.openOnDesktop
         ) {
           void invoke('plugin:shell|open', {
             path: t.href
